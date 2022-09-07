@@ -33,7 +33,7 @@ public class Menu {
     clearConsole();
     displayMenu();
     try {
-      selector = reader.readLine();
+      selector = reader.readLine().trim();
       MenuItem item = retrieveMenuItem(selector);
       clearConsole();
       item.execute();

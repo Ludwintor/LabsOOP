@@ -11,5 +11,9 @@ public abstract class MenuTask implements ITask {
     while (!menu.show());
   }
 
+  /**
+   * Get new main menu created by MenuBuilder
+   * @return created main menu
+   */
   public abstract Menu getMainMenu();
 }

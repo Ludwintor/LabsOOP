@@ -2,6 +2,7 @@ package com.oop.tasks;
 
 import com.oop.menu.Menu;
 import com.oop.menu.MenuBuilder;
+import com.oop.text.TextFinder;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -30,12 +31,14 @@ public class Task1 extends MenuTask {
 
   private final Scanner scanner;
   private final Random rng;
+  private TextFinder textFinder;
   private String text;
   private String substring;
   private String result;
 
   public Task1() {
     scanner = new Scanner(System.in);
+    textFinder = new TextFinder();
     rng = new Random();
   }
 
@@ -58,6 +61,8 @@ public class Task1 extends MenuTask {
       manualTextInput();
     else
       generateText();
+    System.out.println("Enter substring to search words by it");
+    substring = scanner.nextLine();
   }
 
   private void generateText() {
@@ -71,11 +76,12 @@ public class Task1 extends MenuTask {
   }
 
   private void findWordsWithSubstring() {
-
+    result = textFinder.findWords(text, substring);
+    System.out.println("Words that found: "+result);
   }
 
   private void displayResult() {
-
+    System.out.println("Words that found "+result);
   }
 }
 
