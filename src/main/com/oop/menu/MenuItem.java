@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.HashMap;
 
-public final class MenuItem {
+final class MenuItem {
     private String name;
     private Runnable method;
 
@@ -18,6 +18,9 @@ public final class MenuItem {
         return name;
     }
 
+    /**
+     * Call supplied method
+     */
     public void execute() {
         if (method != null)
             method.run();

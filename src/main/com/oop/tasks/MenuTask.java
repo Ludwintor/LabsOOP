@@ -4,18 +4,12 @@ import com.oop.menu.Menu;
 import java.io.IOException;
 
 public abstract class MenuTask implements ITask {
-    private Menu menu;
+  @SuppressWarnings("StatementWithEmptyBody")
+  @Override
+  public final void run() {
+    Menu menu = getMainMenu();
+    while (!menu.show());
+  }
 
-    @Override
-    public final void run() {
-        menu = getMainMenu();
-        try {
-            menu.show(true);
-            System.in.read();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public abstract Menu getMainMenu();
+  public abstract Menu getMainMenu();
 }
