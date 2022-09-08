@@ -1,22 +1,15 @@
 package com.oop.menu;
 
-import java.io.BufferedReader;
 import java.util.LinkedHashMap;
 
 @SuppressWarnings({"UnusedReturnValue", "unused"})
 public final class MenuBuilder {
-  private final BufferedReader reader;
-  private final LinkedHashMap<String, MenuItem> menuItems;
+  private final LinkedHashMap<String, MenuItem> menuItems = new LinkedHashMap<>();
   private String header;
   private String description;
   private String footer;
   private String exitMenuName = "Exit";
   private boolean allowExit = true;
-
-  public MenuBuilder(BufferedReader reader) {
-    this.reader = reader;
-    this.menuItems = new LinkedHashMap<>();
-  }
 
   /**
    * Add menu item to menu with custom selector
@@ -108,6 +101,6 @@ public final class MenuBuilder {
     LinkedHashMap<String, MenuItem> items = new LinkedHashMap<>(menuItems);
     if (allowExit)
       items.put("0", new MenuItem(exitMenuName, null));
-    return new Menu(reader, header, description, footer, items);
+    return new Menu(header, description, footer, items);
   }
 }

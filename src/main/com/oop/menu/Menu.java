@@ -1,22 +1,21 @@
 package com.oop.menu;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Menu {
-  private final BufferedReader reader;
+  private final Scanner scanner;
   private final String header;
   private final String description;
   private final String footer;
   private final Map<String, MenuItem> menuItems;
 
-  Menu(BufferedReader reader,
-       String header,
+  Menu(String header,
        String description,
        String footer,
        Map<String, MenuItem> menuItems) {
-    this.reader = reader;
+    scanner = new Scanner(System.in);
     this.header = header;
     this.description = description;
     this.footer = footer;
@@ -29,35 +28,23 @@ public class Menu {
    * false otherwise (ex: one of the method executed successfully)
    */
   public boolean show() {
-    String selector = "";
     clearConsole();
     displayMenu();
-    try {
-      selector = reader.readLine().trim();
-      MenuItem item = retrieveMenuItem(selector);
-      clearConsole();
-      item.execute();
-      if (!selector.equals("0")){
-        printIfNotNull("\nPress Enter to continue");
-        //noinspection ResultOfMethodCallIgnored
-        reader.read();
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
+    String selector;
+    do {
+      selector = scanner.nextLine().trim();
+    } while (!menuItems.containsKey(selector));
+    clearConsole();
+    menuItems.get(selector).execute();
+    if (!selector.equals("0")){
+      printIfNotNull("\nPress Enter to continue");
+      scanner.nextLine();
     }
     return selector.equals("0");
   }
 
-  /**
-   * Request user input until receiving valid menu item
-   * @param selector menu item selector
-   * @return retrieved menu item
-   * @throws IOException if an I/O error occur
-   */
-  private MenuItem retrieveMenuItem(String selector) throws IOException {
-    while (!menuItems.containsKey(selector))
-      selector = reader.readLine();
-    return menuItems.get(selector);
+  public void close() {
+    scanner.close();
   }
 
   /**

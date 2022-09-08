@@ -4,8 +4,6 @@ import com.oop.menu.Menu;
 import com.oop.menu.MenuBuilder;
 import com.oop.text.TextFinder;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -31,7 +29,7 @@ public class Task1 extends MenuTask {
 
   private final Scanner scanner;
   private final Random rng;
-  private TextFinder textFinder;
+  private final TextFinder textFinder;
   private String text;
   private String substring;
   private String result;
@@ -43,25 +41,25 @@ public class Task1 extends MenuTask {
   }
 
   @Override
-  public Menu getMainMenu() {
-    BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-    MenuBuilder builder = new MenuBuilder(reader);
+  protected Menu getMainMenu() {
+    MenuBuilder builder = new MenuBuilder();
     String frame = "=".repeat(50);
     builder.withHeader(frame).withFooter(frame)
-            .withDescription("Select available option");
-    builder.add("Enter text and substring to find", this::retrieveInputData);
-    builder.add("Find all words with provided substring", this::findWordsWithSubstring);
-    builder.add("Display result", this::displayResult);
+           .withDescription("Select available option")
+           .add("Enter text and substring to find", this::retrieveInputData)
+           .add("Find all words with provided substring", this::findWordsWithSubstring)
+           .add("Display result", this::displayResult);
     return builder.build();
   }
 
   private void retrieveInputData() {
+    result = null;
     System.out.println("Randomize text? [Y/n]");
     if (scanner.nextLine().equals("n"))
       manualTextInput();
     else
       generateText();
-    System.out.println("Enter substring to search words by it");
+    System.out.println("Enter substring to search words");
     substring = scanner.nextLine();
   }
 
@@ -76,12 +74,21 @@ public class Task1 extends MenuTask {
   }
 
   private void findWordsWithSubstring() {
+    if (text == null || substring == null) {
+      System.out.println("Provide text and substring first");
+      return;
+    }
     result = textFinder.findWords(text, substring);
-    System.out.println("Words that found: "+result);
+    System.out.println("Found words: "+result);
   }
 
   private void displayResult() {
-    System.out.println("Words that found "+result);
+    if (result == null) {
+      System.out.println("Execute algorithm first");
+      return;
+    }
+    System.out.println("Original text: "+text);
+    System.out.println("\nFound words: "+result);
   }
 }
 
