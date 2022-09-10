@@ -2,14 +2,31 @@ package com.oop.menu;
 
 import java.util.LinkedHashMap;
 
+/**
+ * Creates instance of Menu class
+ */
 @SuppressWarnings({"UnusedReturnValue", "unused"})
 public final class MenuBuilder {
-  private final LinkedHashMap<String, MenuItem> menuItems = new LinkedHashMap<>();
+  /**
+   * Constant name for exit
+   */
+  private static final String EXIT_MENU_NAME = "Exit";
+  /**
+   * Container for menu items
+   */
+  private final LinkedHashMap<String, MenuItem> MENU_ITEMS = new LinkedHashMap<>();
+  /**
+   * Upper edge of menu
+   */
   private String header;
+  /**
+   * Description before all menu items
+   */
   private String description;
+  /**
+   * Lower edge of menu
+   */
   private String footer;
-  private String exitMenuName = "Exit";
-  private boolean allowExit = true;
 
   /**
    * Add menu item to menu with custom selector
@@ -23,7 +40,7 @@ public final class MenuBuilder {
     if (selector.equals("0"))
       throw new IllegalArgumentException("Selector \"0\" is reserved for menu exit");
 
-    menuItems.put(selector, new MenuItem(name, method));
+    MENU_ITEMS.put(selector, new MenuItem(name, method));
     return this;
   }
 
@@ -33,7 +50,7 @@ public final class MenuBuilder {
    * @param method what will be called on activation.
    */
   public MenuBuilder add(String name, Runnable method) {
-    return add(String.valueOf(menuItems.size() + 1), name, method);
+    return add(String.valueOf(MENU_ITEMS.size() + 1), name, method);
   }
 
   /**
@@ -41,7 +58,7 @@ public final class MenuBuilder {
    * @param selector id for menu item activation
    */
   public MenuBuilder remove(String selector) {
-    menuItems.remove(selector);
+    MENU_ITEMS.remove(selector);
     return this;
   }
 
@@ -49,7 +66,7 @@ public final class MenuBuilder {
    * Clear all menu items
    */
   public MenuBuilder clear() {
-    menuItems.clear();
+    MENU_ITEMS.clear();
     return this;
   }
 
@@ -81,26 +98,11 @@ public final class MenuBuilder {
   }
 
   /**
-   * Sets exit menu name for "0" selector. Default is "Exit"
-   * @param exitMenuName new exit menu name to set
-   */
-  public MenuBuilder withExitName(String exitMenuName) {
-    this.exitMenuName = exitMenuName;
-    return this;
-  }
-
-  public MenuBuilder allowExit(boolean allow) {
-    allowExit = allow;
-    return this;
-  }
-
-  /**
    * Build new menu with given settings
    */
   public Menu build() {
-    LinkedHashMap<String, MenuItem> items = new LinkedHashMap<>(menuItems);
-    if (allowExit)
-      items.put("0", new MenuItem(exitMenuName, null));
+    LinkedHashMap<String, MenuItem> items = new LinkedHashMap<>(MENU_ITEMS);
+    items.put("0", new MenuItem(EXIT_MENU_NAME, null));
     return new Menu(header, description, footer, items);
   }
 }

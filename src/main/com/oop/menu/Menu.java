@@ -4,22 +4,47 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * Console menu
+ */
 public class Menu {
-  private final Scanner scanner;
-  private final String header;
-  private final String description;
-  private final String footer;
-  private final Map<String, MenuItem> menuItems;
+  /**
+   * Used for reading input for user
+   */
+  private final Scanner SCANNER;
+  /**
+   * Menu header
+   */
+  private final String HEADER;
+  /**
+   * Menu description
+   */
+  private final String DESCRIPTION;
+  /**
+   * Menu footer
+   */
+  private final String FOOTER;
+  /**
+   * Menu executable items
+   */
+  private final Map<String, MenuItem> MENU_ITEMS;
 
+  /**
+   * Creates menu instance
+   * @param header menu header
+   * @param description menu description
+   * @param footer menu footer
+   * @param menuItems menu executable items
+   */
   Menu(String header,
        String description,
        String footer,
        Map<String, MenuItem> menuItems) {
-    scanner = new Scanner(System.in);
-    this.header = header;
-    this.description = description;
-    this.footer = footer;
-    this.menuItems = menuItems;
+    SCANNER = new Scanner(System.in);
+    HEADER = header;
+    DESCRIPTION = description;
+    FOOTER = footer;
+    MENU_ITEMS = menuItems;
   }
 
   /**
@@ -32,29 +57,32 @@ public class Menu {
     displayMenu();
     String selector;
     do {
-      selector = scanner.nextLine().trim();
-    } while (!menuItems.containsKey(selector));
+      selector = SCANNER.nextLine().trim();
+    } while (!MENU_ITEMS.containsKey(selector));
     clearConsole();
-    menuItems.get(selector).execute();
+    MENU_ITEMS.get(selector).execute();
     if (!selector.equals("0")){
       printIfNotNull("\nPress Enter to continue");
-      scanner.nextLine();
+      SCANNER.nextLine();
     }
     return selector.equals("0");
   }
 
+  /**
+   * Dispose all resources used for menu
+   */
   public void close() {
-    scanner.close();
+    SCANNER.close();
   }
 
   /**
    * Display whole menu
    */
   private void displayMenu() {
-    printIfNotNull(header);
-    printIfNotNull(description);
-    menuItems.forEach((key, value) -> System.out.println(key+". "+value.getName()));
-    printIfNotNull(footer);
+    printIfNotNull(HEADER);
+    printIfNotNull(DESCRIPTION);
+    MENU_ITEMS.forEach((key, value) -> System.out.println(key+". "+value.getName()));
+    printIfNotNull(FOOTER);
   }
 
   /**

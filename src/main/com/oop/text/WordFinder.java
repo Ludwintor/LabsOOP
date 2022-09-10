@@ -4,8 +4,17 @@ import java.util.StringJoiner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class TextFinder {
+/**
+ * Class that find words
+ */
+public class WordFinder {
+  /**
+   * Constant word regex
+   */
   private static final String WORD_REGEX = "\\b[\\w']*%s[\\w']*\\b";
+  /**
+   * Constant delimiter for StringJoiner
+   */
   private static final String JOINER_SEPARATOR = ", ";
 
   /**

@@ -2,7 +2,7 @@ package com.oop.tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.oop.text.TextFinder;
+import com.oop.text.WordFinder;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -10,8 +10,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
-class TextFinderTest {
-  private static TextFinder textFinder;
+class WordFinderTest {
+  private static WordFinder wordFinder;
 
   private static Stream<Arguments> dataset() {
     return Stream.of(Arguments.of("", "hoh", ""),
@@ -25,13 +25,13 @@ class TextFinderTest {
 
   @BeforeAll
   public static void setup() {
-    textFinder = new TextFinder();
+    wordFinder = new WordFinder();
   }
 
   @ParameterizedTest(name = "TextFinder with substring \"{1}\" must find \"{2}\"")
   @MethodSource(value = "dataset")
   public void test(String text, String substring, String expected) {
-    String result = textFinder.findWords(text, substring);
+    String result = wordFinder.findWords(text, substring);
     assertEquals(result, expected);
   }
 }
