@@ -66,17 +66,50 @@ public class Main {
    * Entry point
    */
   public static void main(String[] args) {
-    MenuBuilder builder = new MenuBuilder();
-    String frame = DEFAULT_MENU_END;
-    builder.withHeader(frame).withFooter(frame)
-            .withDescription("Select available option")
-            .add("Enter text and substring to find", Main::retrieveInputData)
-            .add("Find all words with provided substring", Main::findWordsWithSubstring)
-            .add("Display result", Main::displayResult);
-    Menu menu = builder.build();
-    //noinspection StatementWithEmptyBody
-    while (!menu.show());
-    menu.close();
+    Scanner num = new Scanner(System.in);
+
+    int columns, rows;
+
+    System.out.print("Введите количество строк: ");
+    rows = num.nextInt();
+    System.out.print("Введите количество столбцов: ");
+    columns = num.nextInt();
+
+    int [][] mas = new int[rows][columns];
+
+    // Инициализируем генератор
+    Random random = new Random(101);
+
+    // Матрица
+    for (int i = 0; i < rows; i++){
+      for (int j = 0; j < columns; j++){
+        mas[i][j] = random.nextInt(100);
+        System.out.print(mas[i][j]);
+        System.out.print(' ');
+      }
+      System.out.println();
+    }
+
+    int n = 0, min = 999, max = 0;
+
+    while (n != rows + columns - 1){
+      for (int i = 0; i < rows; i++){
+        for (int j = 0; j < columns; j++){
+          if (i + j == n){
+            if (min > mas[i][j]){
+              min = mas[i][j];
+            }
+          }
+        }
+      }
+      if (max < min){
+        max = min;
+      }
+      min = 999;
+      n++;
+    }
+    System.out.println(max);
+    num.close();
   }
 
   /**
